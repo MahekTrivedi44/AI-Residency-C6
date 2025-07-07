@@ -1,0 +1,29 @@
+body {
+    background-color: #fff0fa;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+h1, h2 {
+    color: #cc66cc;
+    text-align: center;
+}
+
+.gr-button {
+    background-color: #ffc8dd !important;
+    color: #4b004b !important;
+    border-radius: 20px !important;
+    border: none !important;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.gr-textbox, .gr-text-input {
+    background-color: #fffafc !important;
+    border-radius: 15px !important;
+    border: 1px solid #f4c2c2 !important;
+    color: #4b004b;
+}
+
+input[type="password"] {
+    letter-spacing: 2px;
+}

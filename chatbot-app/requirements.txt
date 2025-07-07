@@ -1,0 +1,5 @@
+gradio
+flask
+bcrypt
+requests
+flask-cors
