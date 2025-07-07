@@ -102,13 +102,14 @@ python app.py
 The app will typically launch on http://127.0.0.1:7860 (or another local port if 7860 is in use). You will see a message in your terminal indicating the local URL.
 
 ## Project Structure
+```bash
 .
 ├── app.py                  # Main Gradio application code
 ├── requirements.txt        # Python dependencies
 ├── README.md               # This README file
 └── assets/                 # (Optional) Directory for screenshots etc.
     └── screenshot.png
-    
+```
 ## Technical Details
   1. Frontend/Backend Framework: Gradio
   
