@@ -1,5 +1,6 @@
-gradio
-flask
 bcrypt
 requests
-flask-cors
+Flask
+Flask-Cors
+fpdf
+gradio

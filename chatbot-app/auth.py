@@ -1,36 +1,38 @@
 import bcrypt
 from db import get_db
 import re
+import sqlite3
 
-def is_strong_password(password):
-    if len(password) < 8:
-        return False
-    if not re.search(r"[A-Z]", password):
-        return False
-    if not re.search(r"[a-z]", password):
-        return False
-    if not re.search(r"\d", password):
-        return False
-    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
-        return False
-    return True
-
+# --- Auth Functions ---
 def create_user(username, password):
-    if not is_strong_password(password):
-        return False # Password does not meet strength requirements
+    # Password policy checks
+    if len(password) < 12:
+        return False, "Password must be at least 12 characters long."
+    if not re.search(r"[A-Z]", password):
+        return False, "Password must contain at least one uppercase letter."
+    if not re.search(r"[a-z]", password):
+        return False, "Password must contain at least one lowercase letter."
+    if not re.search(r"\d", password):
+        return False, "Password must contain at least one digit."
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        return False, "Password must contain at least one special character (!@#$%^&*(),.?:{}|<>)."
 
-    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     db = get_db()
     try:
         db.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed))
         db.commit()
-        return True
-    except:
-        return False
+        return True, "User created successfully."
+    except sqlite3.IntegrityError:
+        return False, "Username already exists."
+    except Exception as e:
+        print(f"Error creating user: {e}")
+        db.rollback()
+        return False, "Server error during user creation."
 
 def verify_user(username, password):
     db = get_db()
-    user = db.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
-    if user and bcrypt.checkpw(password.encode(), user[2]):
-        return user[0]
+    user = db.execute("SELECT id, password FROM users WHERE username = ?", (username,)).fetchone()
+    if user and bcrypt.checkpw(password.encode('utf-8'), user["password"]):
+        return user["id"]
     return None
