@@ -6,7 +6,7 @@ import re
 import os
 from pathlib import Path
 
-API_URL = "http://127.0.0.1:5000"
+API_URL = "http://localhost:5000"
 session = requests.Session()
 
 # Helper to convert backend history to Gradio's format
@@ -642,4 +642,4 @@ with gr.Blocks(theme=gr.themes.Soft(), title="Query Quokka Chat", css=custom_css
 
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(server_name="0.0.0.0", server_port=7860)
